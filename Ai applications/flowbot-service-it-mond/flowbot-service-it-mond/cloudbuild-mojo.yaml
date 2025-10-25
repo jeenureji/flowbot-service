@@ -1,0 +1,12 @@
+steps:
+- name: maven:3.8.3-openjdk-17
+  entrypoint: 'mvn'
+  args: ["install"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["build", "-t","gcr.io/purplegrid/flowbot-service:mojo", "-f", "Dockerfile",  "."]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/purplegrid/flowbot-service:mojo"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["tag","gcr.io/purplegrid/flowbot-service:mojo","gcr.io/purplegrid/flowbot-service:$BRANCH_NAME-$COMMIT_SHA"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/purplegrid/flowbot-service:$BRANCH_NAME-$COMMIT_SHA"]

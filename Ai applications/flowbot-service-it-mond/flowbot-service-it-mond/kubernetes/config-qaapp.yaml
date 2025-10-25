@@ -1,0 +1,297 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  managedFields:
+#    - apiVersion: apps/v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:metadata':
+#          'f:annotations':
+#            .: {}
+#            'f:gcb-build-id': {}
+#            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+#          'f:labels':
+#            'f:app.kubernetes.io/version': {}
+#        'f:spec':
+#          'f:progressDeadlineSeconds': {}
+#          'f:replicas': {}
+#          'f:revisionHistoryLimit': {}
+#          'f:selector': {}
+#          'f:strategy':
+#            'f:rollingUpdate':
+#              .: {}
+#              'f:maxSurge': {}
+#              'f:maxUnavailable': {}
+#            'f:type': {}
+#          'f:template':
+#            'f:metadata':
+#              'f:annotations':
+#                'f:gcb-build-id': {}
+#              'f:labels':
+#                .: {}
+#                'f:app': {}
+#                'f:app.kubernetes.io/version': {}
+#            'f:spec':
+#              'f:containers':
+#                'k:{"name":"flowbot-service-1"}':
+#                  .: {}
+#                  'f:env':
+#                    .: {}
+#                    'k:{"name":"SPRING_PROFILES_ACTIVE"}':
+#                      .: {}
+#                      'f:name': {}
+#                      'f:valueFrom':
+#                        .: {}
+#                        'f:configMapKeyRef': {}
+#                  'f:image': {}
+#                  'f:imagePullPolicy': {}
+#                  'f:name': {}
+#                  'f:resources': {}
+#                  'f:terminationMessagePath': {}
+#                  'f:terminationMessagePolicy': {}
+#              'f:dnsPolicy': {}
+#              'f:restartPolicy': {}
+#              'f:schedulerName': {}
+#              'f:securityContext': {}
+#              'f:terminationGracePeriodSeconds': {}
+#      manager: kubectl-client-side-apply
+#      operation: Update
+#      time: '2024-12-04T10:29:55Z'
+#    - apiVersion: apps/v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:spec':
+#          'f:template':
+#            'f:spec':
+#              'f:containers':
+#                'k:{"name":"flowbot-service-1"}':
+#                  'f:resources':
+#                    'f:limits':
+#                      .: {}
+#                      'f:cpu': {}
+#                      'f:memory': {}
+#                    'f:requests':
+#                      .: {}
+#                      'f:cpu': {}
+#                      'f:memory': {}
+#      manager: unknown
+#      operation: Update
+#      time: '2024-12-12T01:02:17Z'
+#    - apiVersion: apps/v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:metadata':
+#          'f:annotations':
+#            'f:deployment.kubernetes.io/revision': {}
+#        'f:status':
+#          'f:availableReplicas': {}
+#          'f:conditions':
+#            .: {}
+#            'k:{"type":"Available"}':
+#              .: {}
+#              'f:lastTransitionTime': {}
+#              'f:lastUpdateTime': {}
+#              'f:message': {}
+#              'f:reason': {}
+#              'f:status': {}
+#              'f:type': {}
+#            'k:{"type":"Progressing"}':
+#              .: {}
+#              'f:lastTransitionTime': {}
+#              'f:lastUpdateTime': {}
+#              'f:message': {}
+#              'f:reason': {}
+#              'f:status': {}
+#              'f:type': {}
+#          'f:observedGeneration': {}
+#          'f:readyReplicas': {}
+#          'f:replicas': {}
+#          'f:updatedReplicas': {}
+#      manager: kube-controller-manager
+#      operation: Update
+#      subresource: status
+#      time: '2024-12-12T01:02:38Z'
+#  name: flowbot-service
+#  namespace: api
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: flowbot-service
+#  strategy:
+#    rollingUpdate:
+#      maxSurge: 25%
+#      maxUnavailable: 25%
+#    type: RollingUpdate
+#  template:
+#    metadata:
+#      labels:
+#        app: flowbot-service
+#    spec:
+#      containers:
+#        - env:
+#            - name: SPRING_PROFILES_ACTIVE
+#              valueFrom:
+#                configMapKeyRef:
+#                  key: SPRING_PROFILES_ACTIVE
+#                  name: flowbot-service-config
+#            - name: JAVA_OPTS
+#              value: >-
+#                -Xss8M -Xms4096M -Xmx4096M -Dserver.tomcat.max-threads=2000
+#                -Dserver.tomcat.threads.max=2000
+#                -Djava.util.concurrent.ForkJoinPool.common.parallelism=1000
+#          image: gcr.io/earth-436717/github.com/purplegridsinc/flowbot-service
+#          imagePullPolicy: Always
+#          name: flowbot-service-1
+#          resources:
+#            limits:
+#              cpu: '2'
+#              memory: 10Gi
+#            requests:
+#              cpu: '1'
+#              memory: 2Gi
+#---
+#apiVersion: autoscaling/v2
+#kind: HorizontalPodAutoscaler
+#metadata:
+#  managedFields:
+#    - apiVersion: autoscaling/v2
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:spec':
+#          'f:maxReplicas': {}
+#          'f:metrics': {}
+#          'f:minReplicas': {}
+#          'f:scaleTargetRef':
+#            'f:apiVersion': {}
+#            'f:kind': {}
+#            'f:name': {}
+#      manager: unknown
+#      operation: Update
+#      time: '2024-12-12T01:03:07Z'
+#    - apiVersion: autoscaling/v2
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:status':
+#          'f:conditions':
+#            .: {}
+#            'k:{"type":"AbleToScale"}':
+#              .: {}
+#              'f:lastTransitionTime': {}
+#              'f:message': {}
+#              'f:reason': {}
+#              'f:status': {}
+#              'f:type': {}
+#            'k:{"type":"ScalingActive"}':
+#              .: {}
+#              'f:lastTransitionTime': {}
+#              'f:message': {}
+#              'f:reason': {}
+#              'f:status': {}
+#              'f:type': {}
+#            'k:{"type":"ScalingLimited"}':
+#              .: {}
+#              'f:lastTransitionTime': {}
+#              'f:message': {}
+#              'f:reason': {}
+#              'f:status': {}
+#              'f:type': {}
+#          'f:currentMetrics': {}
+#          'f:currentReplicas': {}
+#          'f:desiredReplicas': {}
+#      manager: vpa-recommender
+#      operation: Update
+#      subresource: status
+#      time: '2024-12-12T01:03:37Z'
+#  name: flowbot-service
+#  namespace: api
+#spec:
+#  maxReplicas: 10
+#  metrics:
+#    - resource:
+#        name: cpu
+#        target:
+#          averageUtilization: 70
+#          type: Utilization
+#      type: Resource
+#    - resource:
+#        name: memory
+#        target:
+#          averageUtilization: 70
+#          type: Utilization
+#      type: Resource
+#  minReplicas: 1
+#  scaleTargetRef:
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    name: flowbot-service
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  annotations:
+#    cloud.google.com/neg: '{"ingress":true}'
+#    cloud.google.com/neg-status: >-
+#      {"network_endpoint_groups":{"80":"k8s1-af193eec-api-flowbot-service-service-80-acf8d674"},"zones":["us-central1-a"]}
+#  managedFields:
+#    - apiVersion: v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:spec':
+#          'f:externalTrafficPolicy': {}
+#          'f:internalTrafficPolicy': {}
+#          'f:ports':
+#            .: {}
+#            'k:{"port":80,"protocol":"TCP"}':
+#              .: {}
+#              'f:port': {}
+#              'f:protocol': {}
+#              'f:targetPort': {}
+#          'f:selector': {}
+#          'f:sessionAffinity': {}
+#          'f:type': {}
+#      manager: kubectl-expose
+#      operation: Update
+#      time: '2024-09-26T15:04:50Z'
+#    - apiVersion: v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:metadata':
+#          'f:annotations':
+#            'f:cloud.google.com/neg-status': {}
+#      manager: glbc
+#      operation: Update
+#      subresource: status
+#      time: '2024-09-26T16:35:32Z'
+#    - apiVersion: v1
+#      fieldsType: FieldsV1
+#      fieldsV1:
+#        'f:metadata':
+#          'f:annotations':
+#            'f:gcb-build-id': {}
+#            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+#          'f:labels':
+#            'f:app.kubernetes.io/version': {}
+#      manager: kubectl-client-side-apply
+#      operation: Update
+#      time: '2024-12-04T10:29:55Z'
+#  name: flowbot-service-service
+#  namespace: api
+#spec:
+#  clusterIP: 10.116.156.33
+#  clusterIPs:
+#    - 10.116.156.33
+#  externalTrafficPolicy: Cluster
+#  internalTrafficPolicy: Cluster
+#  ipFamilies:
+#    - IPv4
+#  ipFamilyPolicy: SingleStack
+#  ports:
+#    - nodePort: 32033
+#      port: 80
+#      protocol: TCP
+#      targetPort: 80
+#  selector:
+#    app: flowbot-service
+#  sessionAffinity: None
+#  type: NodePort

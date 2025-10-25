@@ -1,0 +1,15 @@
+FROM maven:3.8.3-openjdk-17 AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+
+FROM openjdk:17-jdk-slim
+VOLUME /tmp
+COPY --from=build /home/app/target/flowbot-service-0.0.1-SNAPSHOT.jar  app.jar
+
+ADD https://storage.googleapis.com/datadog_apm/dd-java-agent.jar /dd-java-agent.jar
+ADD https://storage.googleapis.com/datadog_apm/YC.tgz /YC.tgz
+ADD https://storage.googleapis.com/datadog_apm/jdk-17_linux-x64_bin.tar.gz /jdk-17_linux-x64_bin.tar.gz
+
+ENTRYPOINT exec java $JAVA_OPTS  -jar /app.jar
