@@ -1,2 +1,3 @@
 # flowbot-service
-flow bot serivce 
+Light Weight Flowbots
+
